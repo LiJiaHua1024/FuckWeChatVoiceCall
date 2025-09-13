@@ -17,7 +17,6 @@ dependencies = [
     "PySide6",
     "PySide6-Fluent-Widgets",
     "pyaudio",
-    "opuslib",
 ]
 
 [project.urls]
