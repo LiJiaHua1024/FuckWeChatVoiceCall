@@ -7,10 +7,10 @@ name = "p2p-voice-chat"
 version = "0.1.0"
 description = "A P2P voice chat application using PySide6 and Opus."
 authors = [{ name = "Jules", email = "jules@example.com" }]
+license = "MIT"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [
@@ -22,3 +22,6 @@ dependencies = [
 
 [project.urls]
 "Homepage" = "https://github.com/example/p2p-voice-chat"
+
+[tool.setuptools]
+py-modules = ["main", "audio", "network"]
