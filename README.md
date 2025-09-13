@@ -32,17 +32,20 @@
 
     ### Windows 用户
 
-    在 Windows 上，您需要手动下载并提供 `opus` 的动态链接库 (`.dll`)。
+    在 Windows 上，`opuslib` 需要底层的 Opus C 库（一个 `.dll` 文件）才能运行。您需要手动下载它。
 
-    1.  **下载 Opus 工具包**:
-        -   访问 [Opus 官方下载页面](https://opus-codec.org/downloads/)。
-        -   在 "Development binary builds" 或 "opus-tools" 部分，找到适用于 Windows 的二进制文件压缩包。推荐下载 64 位版本：`opus-tools-0.2-win64.zip`。
-        -   [直接下载链接](https://archive.mozilla.org/pub/opus/win64/opus-tools-0.2-win64.zip)
+    1.  **下载预编译的 Opus 库**:
+        -   点击此链接下载包含 `libopus.dll` 的压缩包：
+            [**vnext_natives_win32_x64.zip**](https://github.com/DSharpPlus/DSharpPlus/raw/master/docs/natives/vnext_natives_win32_x64.zip)
+        -   这是一个由 DSharpPlus 社区（一个知名的 .NET Discord 库）提供的可靠二进制文件。
 
-    2.  **提取并放置 `opus.dll`**:
-        -   解压下载的 `.zip` 文件。
-        -   在解压后的文件夹中，找到 `opus.dll` 文件。它通常位于 `x64/` 或 `bin/` 目录下。
-        -   将 `opus.dll` 文件复制到本项目的根目录下（与 `main.py` 文件放在同一个文件夹）。
+    2.  **提取并重命名 DLL 文件**:
+        -   解压下载的 `vnext_natives_win32_x64.zip` 文件。
+        -   在解压后的文件夹中，找到 `libopus.dll` 文件。
+        -   将 `libopus.dll` 文件复制到本项目的根目录下（与 `main.py` 文件放在同一个文件夹）。
+        -   **非常重要**: 将复制过来的 `libopus.dll` 文件**重命名为 `opus.dll`**。
+
+    完成以上步骤后，`opuslib` 就能正确加载并运行。
 
 3.  **创建虚拟环境并安装依赖**
     推荐使用 `uv` 来管理虚拟环境。
