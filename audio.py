@@ -1,7 +1,7 @@
 import pyaudio
 import threading
 import queue
-import opuslib
+import audioop
 
 class AudioStreamer:
     def __init__(self, input_device_index, output_device_index, outgoing_queue, incoming_queue):
@@ -9,7 +9,7 @@ class AudioStreamer:
         self.CHUNK = 1024
         self.FORMAT = pyaudio.paInt16
         self.CHANNELS = 1
-        self.RATE = 48000  # Opus supports 8, 12, 16, 24, or 48 kHz
+        self.RATE = 8000
 
         # Device indices
         self.input_device_index = input_device_index
@@ -22,9 +22,9 @@ class AudioStreamer:
         # PyAudio instance
         self.p = pyaudio.PyAudio()
 
-        # Opus encoder and decoder
-        self.encoder = opuslib.Encoder(self.RATE, self.CHANNELS, opuslib.APPLICATION_VOIP)
-        self.decoder = opuslib.Decoder(self.RATE, self.CHANNELS)
+        # NOTE: We are not using any encoder/decoder for simplicity with audioop
+        # self.encoder = opuslib.Encoder(self.RATE, self.CHANNELS, opuslib.APPLICATION_VOIP)
+        # self.decoder = opuslib.Decoder(self.RATE, self.CHANNELS)
 
         # Streams
         self.input_stream = None
@@ -65,8 +65,9 @@ class AudioStreamer:
         while self.is_running:
             try:
                 data = self.input_stream.read(self.CHUNK, exception_on_overflow=False)
-                encoded_data = self.encoder.encode(data, self.CHUNK)
-                self.outgoing_queue.put(encoded_data)
+                # Compress data using G.711 μ-law
+                compressed_data = audioop.lin2ulaw(data, self.p.get_sample_size(self.FORMAT))
+                self.outgoing_queue.put(compressed_data)
             except Exception as e:
                 print(f"Error in sending audio: {e}")
                 break
@@ -75,10 +76,11 @@ class AudioStreamer:
         """ Gets data from the incoming queue, decodes, and plays it. """
         while self.is_running:
             try:
-                encoded_data = self.incoming_queue.get()
-                if encoded_data is None: # Sentinel value to stop
+                compressed_data = self.incoming_queue.get()
+                if compressed_data is None: # Sentinel value to stop
                     break
-                decoded_data = self.decoder.decode(encoded_data, self.CHUNK)
+                # Decompress data using G.711 μ-law
+                decoded_data = audioop.ulaw2lin(compressed_data, self.p.get_sample_size(self.FORMAT))
                 self.output_stream.write(decoded_data)
             except Exception as e:
                 print(f"Error in receiving audio: {e}")
