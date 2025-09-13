@@ -30,6 +30,20 @@
     sudo apt-get install -y libxcb-cursor0
     ```
 
+    ### Windows 用户
+
+    在 Windows 上，您需要手动下载并提供 `opus` 的动态链接库 (`.dll`)。
+
+    1.  **下载 Opus 工具包**:
+        -   访问 [Opus 官方下载页面](https://opus-codec.org/downloads/)。
+        -   在 "Development binary builds" 或 "opus-tools" 部分，找到适用于 Windows 的二进制文件压缩包。推荐下载 64 位版本：`opus-tools-0.2-win64.zip`。
+        -   [直接下载链接](https://archive.mozilla.org/pub/opus/win64/opus-tools-0.2-win64.zip)
+
+    2.  **提取并放置 `opus.dll`**:
+        -   解压下载的 `.zip` 文件。
+        -   在解压后的文件夹中，找到 `opus.dll` 文件。它通常位于 `x64/` 或 `bin/` 目录下。
+        -   将 `opus.dll` 文件复制到本项目的根目录下（与 `main.py` 文件放在同一个文件夹）。
+
 3.  **创建虚拟环境并安装依赖**
     推荐使用 `uv` 来管理虚拟环境。
     ```bash
