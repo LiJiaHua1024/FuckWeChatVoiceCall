@@ -32,20 +32,20 @@
 
     ### Windows 用户
 
-    在 Windows 上，`opuslib` 需要底层的 Opus C 库（一个 `.dll` 文件）才能运行。您需要手动下载它。
+    在 Windows 上，除了 Python 依赖外，还需要两个关键的系统组件。
 
-    1.  **下载预编译的 Opus 库**:
-        -   点击此链接下载包含 `libopus.dll` 的压缩包：
-            [**vnext_natives_win32_x64.zip**](https://github.com/DSharpPlus/DSharpPlus/raw/master/docs/natives/vnext_natives_win32_x64.zip)
-        -   这是一个由 DSharpPlus 社区（一个知名的 .NET Discord 库）提供的可靠二进制文件。
+    1.  **安装 Visual C++ 运行库 (必要依赖)**
+        -   `opus.dll` 文件本身依赖于微软的 Visual C++ 运行库。如果系统缺失这个库，即使 `opus.dll` 文件存在也无法被加载。
+        -   **操作**: 请访问 [微软官方下载页面](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)，下载并安装 **X64** 版本的 `Visual Studio 2015, 2017, 2019, and 2022` Redistributable。
 
-    2.  **提取并重命名 DLL 文件**:
-        -   解压下载的 `vnext_natives_win32_x64.zip` 文件。
+    2.  **下载并放置 Opus C 库**
+        -   **操作**: 点击此链接下载包含 `libopus.dll` 的压缩包：[**vnext_natives_win32_x64.zip**](https://github.com/DSharpPlus/DSharpPlus/raw/master/docs/natives/vnext_natives_win32_x64.zip)。
+        -   解压下载的 `.zip` 文件。
         -   在解压后的文件夹中，找到 `libopus.dll` 文件。
-        -   将 `libopus.dll` 文件复制到本项目的根目录下（与 `main.py` 文件放在同一个文件夹）。
+        -   将 `libopus.dll` 文件复制到本项目的根目录下（与 `main.py` 文件在同一个文件夹）。
         -   **非常重要**: 将复制过来的 `libopus.dll` 文件**重命名为 `opus.dll`**。
 
-    完成以上步骤后，`opuslib` 就能正确加载并运行。
+    完成以上两个步骤后，`opuslib` 就能正确加载并运行。
 
 3.  **创建虚拟环境并安装依赖**
     推荐使用 `uv` 来管理虚拟环境。
